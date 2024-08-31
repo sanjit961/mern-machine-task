@@ -1,0 +1,64 @@
+nav {
+  background-color: #333;
+  padding: 10px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav ul li {
+  color: white;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+
+/* Container styling */
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Table styling */
+.table {
+  width: 100%;
+  border-collapse: collapse; /* Ensures borders are collapsed into a single border */
+}
+
+.table th, .table td {
+  border: 1px solid #ddd; /* Light gray border for table cells */
+  padding: 10px; /* Padding inside cells */
+  text-align: left; /* Align text to the left */
+}
+
+.table th {
+  background-color: #f4f4f4; /* Light gray background for header cells */
+  font-weight: bold; /* Bold text for header */
+}
+
+/* Button styling */
+.button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007BFF; /* Blue background */
+  color: #fff; /* White text */
+}
+
+/* Hover effect for buttons */
+.button:hover {
+  background-color: #0056b3; /* Darker blue for hover effect */
+}
