@@ -6,12 +6,13 @@ const EditEmployee = () => {
   const { id } = useParams(); // Get employee ID from URL parameters
   const navigate = useNavigate(); // Hook to navigate programmatically
 
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     mobileNumber: '',
     designation: '',
-    course: '',  // Changed from array to string
+    course: [],  // Changed from string to array
     gender: '',
     image: null
   });
@@ -39,7 +40,9 @@ const EditEmployee = () => {
     if (type === 'checkbox') {
       setFormData(prevState => ({
         ...prevState,
-        course: checked ? value : ''  // Set the value directly, and clear if unchecked
+        course: checked
+          ? [...prevState.course, value] // Add value to the array if checked
+          : prevState.course.filter(course => course !== value) // Remove value from the array if unchecked
       }));
     } else if (type === 'file') {
       setFormData(prevState => ({
@@ -64,12 +67,13 @@ const EditEmployee = () => {
     if (!/^\d{10}$/.test(formData.mobileNumber)) errors.mobileNumber = 'Mobile number must be 10 digits';
     if (!formData.designation) errors.designation = 'Designation is required';
     if (!formData.gender) errors.gender = 'Gender is required';
-    if (!formData.course) errors.course = 'A course must be selected';
-    if (formData.image && !['image/png', 'image/jpeg'].includes(formData.image.type)) errors.image = 'Image must be a PNG or JPG file';
+    if (!formData.course.length) errors.course = 'At least one course must be selected';
+    // if (formData.image && !['image/png', 'image/jpeg'].includes(formData.image.type)) errors.image = 'Image must be a PNG or JPG file';
 
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
+
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -78,18 +82,20 @@ const EditEmployee = () => {
   
     const formDataToSend = new FormData();
   
-    // Ensure formData.course is a string
+    // Append form data to FormData object
     Object.keys(formData).forEach(key => {
       if (key === 'image' && formData[key]) {
         // Only append image if a new file is selected (checking if the image field is not empty)
         formDataToSend.append(key, formData[key]);
+      } else if (key === 'course') {
+        // Append courses as multiple values
+        formData[key].forEach(course => formDataToSend.append('course', course));
       } else {
         formDataToSend.append(key, formData[key]);
       }
     });
   
     try {
-      // Replace 'http://localhost:3000/api/employees/{id}' with your actual API endpoint for updating employees
       const response = await axios.put(
         `http://localhost:3000/api/users/${id}`,
         formDataToSend,
@@ -102,8 +108,7 @@ const EditEmployee = () => {
   
       if (response.status === 200) {
         alert('Employee updated successfully!');
-        // Redirect or perform any additional actions after a successful update
-        navigate('/employee');
+        navigate('/employee'); // Redirect or perform any additional actions after a successful update
       }
     } catch (error) {
       console.error('Error updating employee:', error);
@@ -199,40 +204,22 @@ const EditEmployee = () => {
           {errors.gender && <p style={styles.error}>{errors.gender}</p>}
         </div>
         
-        {/* Course */}
-        <div style={styles.formGroup}>
+         {/* Course */}
+         <div style={styles.formGroup}>
           <label>Course:</label>
           <div>
-            <label>
-              <input
-                type="checkbox"
-                name="course"
-                value="MCA"
-                checked={formData.course === 'MCA'}
-                onChange={handleChange}
-              />
-              MCA
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="course"
-                value="BCA"
-                checked={formData.course === 'BCA'}
-                onChange={handleChange}
-              />
-              BCA
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="course"
-                value="BSC"
-                checked={formData.course === 'BSC'}
-                onChange={handleChange}
-              />
-              BSC
-            </label>
+            {['MCA', 'BCA', 'BSC'].map((course) => (
+              <label key={course}>
+                <input
+                  type="checkbox"
+                  name="course"
+                  value={course}
+                  checked={formData.course.includes(course)}
+                  onChange={handleChange}
+                />
+                {course}
+              </label>
+            ))}
           </div>
           {errors.course && <p style={styles.error}>{errors.course}</p>}
         </div>

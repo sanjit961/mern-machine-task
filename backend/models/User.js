@@ -14,15 +14,15 @@ const UserSchema = new mongoose.Schema(
     mobileNumber: {
       type: String,
       required: true,
-      unique: true, // Assuming mobile numbers should be unique
+      unique: true, 
     },
     gender: {
       type: String,
-      enum: ["Male", "Female", "Other"], // Restricting to predefined values
+      enum: ["Male", "Female", "Other"],
       required: true,
     },
     course: {
-      type: String,
+      type: [String],
       required: true,
     },
     designation: {
@@ -30,8 +30,8 @@ const UserSchema = new mongoose.Schema(
       required: true,
     },
     image: {
-      type: String, // Assuming this will store a URL or a file path
-      required: true, // Optional, in case the image is not mandatory
+      type: String, 
+      required: true, 
     },
   },
   { timestamps: true }

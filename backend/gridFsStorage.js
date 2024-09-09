@@ -4,7 +4,7 @@ const multer = require('multer');
 const { GridFsStorage } = require('multer-gridfs-storage');
 
 // MongoDB connection URL
-const mongoURI = 'mongodb+srv://sanjit:b4Lq3MYORx1kfR4b@cluster0.ozowps1.mongodb.net'; // Ensure this is correct
+const mongoURI = 'mongodb+srv://sanjit:b4Lq3MYORx1kfR4b@cluster0.ozowps1.mongodb.net/test333'; // Ensure this is correct
 
 // Create a connection
 const conn = mongoose.createConnection(mongoURI, {
@@ -15,9 +15,9 @@ const conn = mongoose.createConnection(mongoURI, {
 // Initialize GridFS stream
 let gfs;
 conn.once('open', () => {
-  console.log('mongodb+srv://sanjit:b4Lq3MYORx1kfR4b@cluster0.ozowps1.mongodb.net/test333');
+  console.log(mongoURI);
   gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection('uploads'); // Ensure this collection is set correctly
+  gfs.collection('uploads');
 });
 
 // Create a storage engine with multer-gridfs-storage

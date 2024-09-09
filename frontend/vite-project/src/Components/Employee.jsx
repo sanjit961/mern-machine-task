@@ -106,13 +106,13 @@ const Employee = () => {
           {filteredEmployees.map((employee) => (
             <tr key={employee._id}>
               <td>{employee._id}</td>
-              <td><img src={`http://localhost:3000/uploads/${employee.image}`} alt="Employee" style={styles.image} /></td>
+              <td><img src={`http://localhost:3000/api/files/${employee.image}`} alt="Employee" style={styles.image} /></td>
               <td>{employee.name}</td>
               <td>{employee.email}</td>
               <td>{employee.mobileNumber}</td>
               <td>{employee.designation}</td>
               <td>{employee.gender}</td>
-              <td>{employee.course}</td> {/* Assuming course is an array */}
+              <td>{employee.course}</td> 
               <td>{new Date(employee.createdAt).toLocaleDateString()}</td> {/* Format date */}
               <td>
                 <button onClick={() => handleEdit(employee._id)} style={styles.button}>Edit</button>

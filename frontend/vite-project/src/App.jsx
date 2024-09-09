@@ -1,15 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css'; // Import the CSS file
+import './App.css';
 import Navbar from './Navbar';
-import Home from './Components/Home';
-import About from './Components/Contact';
 import Contact from './Components/Employee';
 import Login from './Components/Login';
 import Dashboard from './Components/Dashboard';
 import Employee from './Components/Employee';
 import CreateEmployee from './Components/CreateEmployee';
 import EditEmployee from './Components/EditEmployee';
+import ProtectedRoute from './ProtectedRoute'; 
 
 const App = () => {
   return (
@@ -17,12 +16,50 @@ const App = () => {
       <div>
         <Navbar />
         <Routes>
+          {/* Public route */}
           <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/employee" element={<Employee />} />
-          <Route path="/create-employee" element={<CreateEmployee />} />
-          <Route path="/edit-employee/:id" element={<EditEmployee />} />
-          <Route path="/contact" element={<Contact />} />
+
+          {/* Protected routes */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/employee"
+            element={
+              <ProtectedRoute>
+                <Employee />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create-employee"
+            element={
+              <ProtectedRoute>
+                <CreateEmployee />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-employee/:id"
+            element={
+              <ProtectedRoute>
+                <EditEmployee />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <ProtectedRoute>
+                <Contact />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
     </Router>
